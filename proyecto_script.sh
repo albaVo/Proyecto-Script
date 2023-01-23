@@ -6,7 +6,8 @@ menu(){
     2) Instalar un paquete deseado
     3) Información sobre el software y el hardware del sistema
     4) Configuración de los usuarios
-    5) Salir del menu"
+    5) Configuración de los grupos
+    6) Salir del menu"
 }
 
 actualizar(){
@@ -293,6 +294,84 @@ usuarios(){
     fi
 }
 
+grupos(){
+    echo "¿Qué deseas configurar?"
+    echo "
+    1) Crear grupos
+    2) Modificar grupos
+    3) Eliminar grupos
+    4) Añadir usuarios a un grupo
+    5) Quitar usuarios de un grupo
+    6) Salir"
+    echo ""
+    read -p "Selecciona una opción escribiendo su respectivo número a continuación: " opcion
+    if [ "$opcion" = "1" ]
+    then
+        clear
+        echo "CREACIÓN DE UN GRUPO"
+        echo "----------------------"
+        read -p "Introduce el nombre del grupo para crearlo: " grupo
+        echo ""
+        sudo groupadd $grupo
+        cat /etc/group | grep $grupo
+        echo ""
+        echo "---- Grupo creado con éxito ----"
+        echo ""
+    elif [ "$opcion" = "2" ]
+    then
+        clear
+        echo "MODIFICACIÓN DE UN GRUPO"
+        echo "--------------------------"
+        echo ""
+        read -p "Introduce el nombre del grupo que desees modificar: " grupo
+        read -p "Introduce el nuevo nombre del grupo: " nombre
+        echo ""
+        sudo groupmod -n $nombre $grupo
+        cat /etc/group | grep $nombre
+        echo ""
+        echo "---- Grupo modificado con éxito ----"
+        echo ""
+    elif [ "$opcion" = "3" ]
+    then
+        clear
+        echo "ELIMINACIÓN DE UN GRUPO"
+        echo "--------------------------"
+        echo ""
+        read -p "Introduce el nombre del grupo que desees eliminar: " grupo
+        echo ""
+        sudo groupdel -f $grupo
+        echo ""
+        echo "---- Grupo eliminado con éxito ----"
+        echo ""
+    elif [ "$opcion" = "4" ]
+    then
+        clear
+        echo "AÑADIR USUARIOS A UN GRUPO"
+        echo "--------------------------"
+        echo ""
+        read -p "Introduce el nombre del usuario: " usuario
+        read -p "Introduce el nombre del grupo: " grupo
+        echo ""
+        sudo adduser $usuario $grupo
+        echo ""
+        echo "--- Usuario añadido al grupo con éxito ---"
+        echo ""
+    elif [ "$opcion" = "5" ]
+    then
+        clear
+        echo "QUITAR USUARIOS DE UN GRUPO"
+        echo "--------------------------"
+        echo ""
+        read -p "Introduce el nombre del usuario: " usuario
+        read -p "Introduce el nombre del grupo: " grupo
+        echo ""
+        sudo deluser $usuario $grupo
+        echo ""
+        echo "--- Usuario quitado del grupo con éxito ---"
+        echo ""
+    fi
+}
+
 while true;do
     menu
     read -p "Introduce una opción del menú anterior: " opcion
@@ -301,7 +380,8 @@ while true;do
         2)clear;instalar;;
         3)clear;informacion;;
         4)clear;usuarios;;
-        5)exit;;
+        5)clear;grupos;;
+        6)exit;;
         *)echo "Ha introducido una opción no válida";break;;
     esac
 done
