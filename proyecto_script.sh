@@ -5,7 +5,8 @@ menu(){
     1) Actualizar el software del sistema
     2) Instalar un paquete deseado
     3) Información sobre el software y el hardware del sistema
-    4) Salir del menu"
+    4) Configuración de los usuarios
+    5) Salir del menu"
 }
 
 actualizar(){
@@ -13,6 +14,7 @@ actualizar(){
     sudo apt upgrade
     echo ""
     echo "----- ACTUALIZACIÓN COMPLETADA -----"
+    echo ""
 }
 
 instalar(){
@@ -39,9 +41,10 @@ informacion(){
    7) Información sobre el entorno del usuario
    8) Información del hardware
    9) Información sobre los medios de almacenamiento y arranque
-   10) Información de las redes"
+   10) Información de las redes
+   11) Salir"
    echo ""
-   read -p "Selecciona una opción escribiendo su respectivo número a continuación:  " opcion
+   read -p "Selecciona una opción escribiendo su respectivo número a continuación: " opcion
     if [ "$opcion" = "1" ]
     then
         clear
@@ -191,6 +194,105 @@ informacion(){
     fi
 }
 
+usuarios(){
+    echo "¿Qué deseas configurar?"
+    echo "
+    1) Crear usuarios
+    2) Modificar usuarios
+    3) Eliminar usuarios
+    4) Salir"
+    echo ""
+    read -p "Selecciona una opción escribiendo su respectivo número a continuación: " opcion
+    if [ "$opcion" = "1" ]
+    then
+        clear
+        echo "CREACIÓN DE UN USUARIO"
+        echo "------------------------"
+        read -p "Introduce el nombre del usuario para crearlo: " usuario
+        sudo useradd $usuario
+        cat /etc/passwd | grep $usuario
+        echo ""
+        echo "Introduce una contraseña para el usuario: "
+        sudo passwd $usuario
+        echo ""
+        echo "---- Usuario creado con éxito ----"
+        echo ""
+    elif [ "$opcion" = "2" ]
+    then
+        clear
+        echo "MODIFICACIÓN DE UN USUARIO"
+        echo "----------------------------"
+        echo ""
+        echo "¿Qué deseas modificar?"
+        echo "
+        1) Cambiar el nombre del usuario
+        2) Cambiar la contraseña del usuario
+        3) Bloquear la contraseña de un usuario
+        4) Desbloquear la contraseña de un usuario
+        5) Agregar información a la cuenta del usuario"
+        echo ""
+        read -p "Selecciona una opción escribiendo su respectivo número a continuación: " opcion
+        if [ "$opcion" = "1" ]
+        then
+            clear
+            read -p "Introduce el nombre del usuario que desees modificar: " usuario
+            read -p "Introduce el nuevo nombre del usuario: " nombre
+            echo ""
+            sudo usermod -l $nombre $usuario
+            echo ""
+            cat /etc/passwd | grep $nombre
+            echo ""
+            echo "---- Usuario modificado con éxito ----"
+            echo ""
+        elif [ "$opcion" = "2" ]
+        then
+            clear
+            read -p "Introduce el nombre del usuario que desees modificar: " usuario
+            read -p "Introduce la nueva contraseña: " contra
+            echo ""
+            sudo usermod -p $contra $usuario
+            echo ""
+            echo "---- Usuario modificado con éxito ----"
+            echo ""
+        elif [ "$opcion" = "3" ]
+        then
+            clear
+            read -p "Introduce el nombre del usuario del que desees bloquear la contraseña: " usuario
+            sudo usermod -L $usuario
+            echo ""
+            echo "---- Contraseña bloqueada con éxito ----"
+            echo ""
+        elif [ "$opcion" = "4" ]
+        then
+            clear
+            read -p "Introduce el nombre del usuario del que desees desbloquear la contraseña: " usuario
+            sudo usermod -U $usuario
+            echo ""
+            echo "---- Contraseña desbloqueada con éxito ----"
+            echo ""
+        elif [ "$opcion" = "5" ]
+        then
+            clear
+            read -p "Introduce el nombre del usuario del que desees agregar información: " usuario
+            sudo chfn $usuario
+            echo ""
+            echo "--- Información agragada con éxito ---"
+            echo ""
+        fi
+    elif [ "$opcion" = "3" ]
+    then
+        clear
+        echo "ELIMINACIÓN DE UN USUARIO"
+        echo "----------------------------"
+        echo ""
+        read -p "Introduce el nombre del usuario para eliminarlo: " usuario
+        sudo userdel $usuario
+        echo ""
+        echo "---- Usuario eliminado con éxito ----"
+        echo ""
+    fi
+}
+
 while true;do
     menu
     read -p "Introduce una opción del menú anterior: " opcion
@@ -198,7 +300,8 @@ while true;do
         1)clear;actualizar;;
         2)clear;instalar;;
         3)clear;informacion;;
-        4)exit;;
+        4)clear;usuarios;;
+        5)exit;;
         *)echo "Ha introducido una opción no válida";break;;
     esac
 done
