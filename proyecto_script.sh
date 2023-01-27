@@ -7,8 +7,11 @@ menu(){
     3) Información sobre el software y el hardware del sistema
     4) Configuración de los usuarios
     5) Configuración de los grupos
-    6) Salir del menu"
+    6) Supervisar el rendimiento
+    7) Salir del menu
+    "
 }
+
 
 actualizar(){
     sudo apt update
@@ -17,6 +20,7 @@ actualizar(){
     echo "----- ACTUALIZACIÓN COMPLETADA -----"
     echo ""
 }
+
 
 instalar(){
     echo "Busca el paquete que deseas instalar para ver si está disponible "
@@ -29,6 +33,7 @@ instalar(){
     echo "----- PAQUETE INSTALADO -----"
     echo ""
 }
+
 
 informacion(){
    echo "¿Sobre qué deseas ver información?"
@@ -195,6 +200,7 @@ informacion(){
     fi
 }
 
+
 usuarios(){
     echo "¿Qué deseas configurar?"
     echo "
@@ -294,6 +300,7 @@ usuarios(){
     fi
 }
 
+
 grupos(){
     echo "¿Qué deseas configurar?"
     echo "
@@ -372,6 +379,12 @@ grupos(){
     fi
 }
 
+
+rendimiento(){
+    top
+}
+
+
 while true;do
     menu
     read -p "Introduce una opción del menú anterior: " opcion
@@ -381,7 +394,8 @@ while true;do
         3)clear;informacion;;
         4)clear;usuarios;;
         5)clear;grupos;;
-        6)exit;;
+        6)clear;rendimiento;;
+        7)exit;;
         *)echo "Ha introducido una opción no válida";break;;
     esac
 done
