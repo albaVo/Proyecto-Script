@@ -8,7 +8,8 @@ menu(){
     4) Configuración de los usuarios
     5) Configuración de los grupos
     6) Supervisar el rendimiento
-    7) Salir del menu
+    7) Mantenimiento sistemas de ficheros
+    8) Salir del menu
     "
 }
 
@@ -384,6 +385,111 @@ rendimiento(){
     top
 }
 
+mantenimiento() {
+    echo "¿Qué acción deseas realizar?"
+    echo "
+    1) Crear un fichero
+    2) Eliminar un fichero
+    3) Comprobar el espacio libre disponible de un directorio concreto
+    4) Calcular el tamaño ocupado por un directorio
+    5) Contar el número de ficheros en un directorio
+    6) Encontrar ficheros vacíos
+    7) exit"
+    echo ""
+    read -p "Selecciona una opción escribiendo su respectivo número a continuación: " opcion
+    if [ "$opcion" = "1" ]
+    then
+        clear
+        echo "CREACIÓN DE UN FICHERO"
+        echo "------------------------"
+        echo ""
+        read -p "Introduce el nombre del directorio donde deseas crear el fichero: " directorio
+        echo ""
+        read -p "Introduce el nombre para el fichero: " fichero
+        echo ""
+        cd $directorio
+        touch $fichero
+        echo ""
+        echo ""
+        ls $directorio   
+        echo ""
+        echo ""
+    elif [ "$opcion" = "2" ]
+    then
+        clear
+        echo "ELIMINACIÓN DE UN FICHERO"
+        echo "---------------------------"
+        echo ""
+        read -p "Introduce el nombre del directorio donde deseas crear el fichero: " directorio
+        echo ""
+        read -p "Introduce el nombre para el fichero: " fichero
+        echo ""
+        cd $directorio
+        rm $fichero
+        echo ""
+        echo "Directorio: "
+        ls $directorio   
+        echo ""
+        echo ""
+    elif [ "$opcion" = "3" ]
+    then
+        clear
+        echo "ESPACIO LIBRE DISPONIBLE DE UN DIRECTORIO CONCRETO"
+        echo "----------------------------------------------------"
+        echo ""
+        cd ..
+        cd ..
+        cd ..
+        ls 
+        echo ""
+        read -p "Indica el nombre del directorio: " directorio
+        echo ""
+        df -h $directorio
+        echo ""
+        echo ""
+    elif [ "$opcion" = "2" ]
+    then
+        clear
+        echo "TAMAÑO OCUPADO POR UN DIRECTORIO"
+        echo "----------------------------------"
+        echo ""
+        cd ..
+        cd ..
+        cd ..
+        ls 
+        echo ""
+        read -p "Indica el nombre del directorio: " directorio
+        echo ""
+        sudo du -h -s $directorio
+        echo ""
+        echo ""
+    elif [ "$opcion" = "3" ]
+    then
+        clear
+        echo "CONTAR EL NÚMERO DE FICHEROS"
+        echo "------------------------------"
+        echo ""
+        cd ..
+        cd ..
+        cd ..
+        ls 
+        echo ""
+        read -p "Indica el nombre del directorio: " directorio
+        echo ""
+        ls -l $directorio | wc -l 
+        echo ""
+        echo ""
+    elif [ "$opcion" = "4" ]
+    then
+        clear
+        echo "FICHEROS VACÍOS"
+        echo "-----------------"
+        echo ""
+        find . -type f -empty -ls
+        echo ""
+        echo ""
+    fi
+}
 
 while true;do
     menu
@@ -395,7 +501,8 @@ while true;do
         4)clear;usuarios;;
         5)clear;grupos;;
         6)clear;rendimiento;;
-        7)exit;;
+        7)clear;mantenimiento;;
+        8)exit;;
         *)echo "Ha introducido una opción no válida";break;;
     esac
 done
